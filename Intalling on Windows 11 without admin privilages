@@ -1,0 +1,19 @@
+I just want to itirate a method for installing Wordcraft on Win 11 PC's without the need for admin privilages. If your installing it on your company/Corporate PC or laptop, please inform the IT team or get necessary permission before doinng this process.
+This method uses compiling the source using Cargo.
+1. We will use the the GNU/MinGW toolchain for providing RUST with C++ linker.
+- Download a portable, no-install distribution of MinGW.
+- Extract the archive to a folder in your user directory.
+- Add the bin folder inside it to your User Path Environment Variable.
+2. Installing RUST
+- Downlaod the rustup-init.exe file from official RUST website.
+- Right-click the downloaded rustup-init.exe file, select Properties, and ensure "Run this as administrator" is unchecked.
+- From CMD or Powershell (inside te directory where you downloaded rustup-init.exe) run rustup-init.exe.
+3. Installing Wordcraft
+- from CMD run "git clone https://github.com/storytold/wordcraft"
+- go to the wordcraft directory and run "cargo run --release -p wordcraft -- --sample"
+- If everything done, its finished. If not go to next step.
+4. lgcc_eh ERROR - w64devkit uses an exception handling model (SEH) that does not create or need libgcc_eh.a, but the default Rust GNU toolchain explicitly looks for it.
+- create a dummy libgcc_eh.a file and point RUST to this - from CMD run a) mkdir "%USERPROFILE%\user_libs" 2>nu" b) cd "%USERPROFILE%\user_libs" c) type nul > libgcc_eh.a
+- Now we will update the CARGO config map to this folder - a) echo [target.x86_64-pc-windows-gnu] > "%USERPROFILE%.cargo\config.toml" b) echo rustflags = ["-L", "%USERPROFILE:=\%\user_libs"] >> "%USERPROFILE%.cargo\config.toml"
+- Go to your wordcraft folder, clear everything and run - a) cd "C:\user\wordcraft" b) cargo clean c) cargo run --release -p wordcraft -- --sample
+You should get a clean install now.
